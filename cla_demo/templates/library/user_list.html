@@ -1,0 +1,10 @@
+<!doctype html><html><body>
+<h1>Users</h1>
+<ul>
+  {% for u in users %}
+    <li>{{ u.username }} — {{ u.email }}</li>
+  {% empty %}
+    <li>No users</li>
+  {% endfor %}
+</ul>
+</body></html>

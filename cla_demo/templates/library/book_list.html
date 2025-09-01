@@ -1,0 +1,28 @@
+<!doctype html><html><body>
+<h1>Books</h1>
+<p><a href="{% url 'book_create' %}">Add Book</a></p>
+<table border="1" cellpadding="6">
+  <tr><th>Title</th><th>Author</th><th>ISBN</th><th>Status</th><th>Actions</th></tr>
+  {% for b in page_obj %}
+  <tr>
+    <td>{{ b.title }}</td>
+    <td>{{ b.author.full_name }}</td>
+    <td>{{ b.isbn }}</td>
+    <td>
+      {% if b.is_available %}Available{% else %}
+        Borrowed (due {{ b.active_borrows.first.due_at|date:"Y-m-d H:i" }})
+      {% endif %}
+    </td>
+    <td>
+      {% if b.is_available %}
+        <a href="{% url 'borrow_create' b.id %}">Borrow</a>
+      {% else %}
+        <a href="{% url 'borrow_return' b.id %}">Return</a>
+      {% endif %}
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="5">No books yet.</td></tr>
+  {% endfor %}
+</table>
+</body></html>
